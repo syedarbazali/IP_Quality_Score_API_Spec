@@ -1,0 +1,545 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: 'IP Quanlity Source'
+  license:
+    name: MIT
+servers:
+  - url: 'https://ipqualityscore.com/api'
+paths:
+  /json/email/{YOUR_API_KEY_HERE}/{USER_EMAIL_HERE}:
+    get:
+      summary: 'Email Validation'
+      operationId: Get_Email_Validation
+      tags:
+        - email_validation
+      parameters:
+          - $ref: '#/components/parameters/YOUR_API_KEY_HERE'
+          - $ref: '#/components/parameters/USER_EMAIL_HERE'
+      responses:
+        '200':
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseEmailValidation'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '500':
+          description: 'Internal Server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        default:
+          description: 'Unexpected error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /json/phone/{YOUR_API_KEY_HERE}/{USER_PHONE_HERE}:
+    get:
+      summary: 'Phone Validation'
+      operationId: Get_Phone_Validation
+      tags:
+        - phone_validation
+      parameters:
+          - $ref: '#/components/parameters/YOUR_API_KEY_HERE'
+          - $ref: '#/components/parameters/USER_PHONE_HERE'
+          - $ref: '#/components/parameters/country'
+      responses:
+        '200':
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePhoneValidation'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '500':
+          description: 'Internal Server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        default:
+          description: 'Unexpected error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /json/url/{YOUR_API_KEY_HERE}/{URL_HERE}:
+    get:
+      summary: 'Malicious URL Scanner'
+      operationId: Get_url_Validation
+      tags:
+        - malicious_url_scanner
+      parameters:
+          - $ref: '#/components/parameters/YOUR_API_KEY_HERE'
+          - $ref: '#/components/parameters/URL_HERE'
+      responses:
+        '200':
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUrlValidation'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '500':
+          description: 'Internal Server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+        default:
+          description: 'Unexpected error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  parameters:
+    country:
+        name: country
+        in: query
+        description: 'country'
+        schema:
+          type: array
+          items:
+            type: string
+            example: 'UK'
+    URL_HERE:
+        name: URL_HERE
+        in: path
+        description: 'URL_HERE'
+        required: true
+        schema:
+          type: string
+          example: "https%3A%2F%2Fgoogle.com"
+    USER_PHONE_HERE:
+        name: USER_PHONE_HERE
+        in: path
+        description: 'USER_PHONE_HERE'
+        required: true
+        schema:
+          type: string
+          example: "18007132618"
+    USER_EMAIL_HERE:
+        name: USER_EMAIL_HERE
+        in: path
+        description: 'USER_EMAIL_HERE'
+        required: true
+        schema:
+          type: string
+          example: "example@example.com"
+    YOUR_API_KEY_HERE:
+        name: YOUR_API_KEY_HERE
+        in: path
+        description: 'YOUR_API_KEY_HERE'
+        required: true
+        schema:
+          type: string
+          example: "asd24#sdfs322#"
+  schemas:
+    ResponseUrlValidation:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Success."
+        success:
+          type: boolean
+          example: true
+        unsafe:
+          type: boolean
+          example: true
+        domain:
+          type: string
+          example: "google.com"
+        ip_address:
+          type: string
+          example: "172.217.7.206"
+        server:
+          type: string
+          example: "nginx"
+        content_type:
+          type: string
+          example: "text\/html; charset=UTF-8"
+        status_code:
+          type: integer
+          example: 200
+        page_size:
+          type: integer
+          example: 68553
+        domain_rank:
+          type: integer
+          example: 1
+        dns_valid:
+          type: boolean
+          example: true
+        parking:
+          type: boolean
+          example: false
+        spamming:
+          type: boolean
+          example: false
+        malware:
+          type: boolean
+          example: false
+        phishing:
+          type: boolean
+          example: false
+        suspicious:
+          type: boolean
+          example: false
+        adult:
+          type: boolean
+          example: false
+        risk_score:
+          type: integer
+          example: 0
+        domain_age:
+            type: object
+            properties:
+                human:
+                    type: string
+                    example: "3 months ago"
+                timestamp:
+                    type: integer
+                    example: 1568061634
+                iso:
+                    type: string
+                    example: "2019-09-09T16:40:34-04:00"
+        category:
+          type: string
+          example: "Search Engine"
+        request_id:
+          type: string
+          example: "4ZGSfWu9RDf3oH"
+    ResponsePhoneValidation:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Success."
+        success:
+          type: boolean
+          example: true
+        formatted:
+          type: string
+          example: "+3234232342"
+        local_format:
+          type: string
+          example: "(206) 456-3059"
+        valid:
+          type: boolean
+          example: true
+        fraud_score:
+          type: integer
+          example: 100
+        recent_abuse:
+          type: boolean
+          example: true
+        VOIP:
+          type: boolean
+          example: true
+        prepaid:
+          type: string
+          example: null
+        risky:
+          type: boolean
+          example: true
+        active:
+          type: boolean
+          example: true
+        carrier:
+          type: string
+          example: "ONVOY, LLC"
+        line_type:
+          type: string
+          example: "VOIP"
+        country:
+          type: string
+          example: "US"
+        city:
+          type: string
+          example: "SEATTLE"
+        zip_code:
+          type: string
+          example: "98104"
+        region:
+          type: string
+          example: "WA"
+        dialing_code:
+          type: integer
+          example: 1
+        active_status:
+          type: string
+          example: "N/A"
+        sms_domain:
+          type: string
+          example: "N/A"
+        associated_email_addresses:
+            type: object
+            properties:
+                status:
+                    type: string
+                    example: "No associated emails found."
+                emails:
+                    type: array
+                    items:
+                      type: string
+                      example: "names"
+        user_activity:
+          type: string
+          example: "Enterprise L4+ required."
+        mnc:
+          type: string
+          example: "N/A"
+        mcc:
+          type: string
+          example: "N/A"
+        leaked:
+          type: boolean
+          example: false
+        spammer:
+          type: boolean
+          example: false
+        request_id:
+          type: string
+          example: "8ctDi1gwuP"
+        name:
+          type: string
+          example: "N/A"
+        timezone:
+          type: string
+          example: "America/Los_Angeles"
+        do_not_call:
+          type: boolean
+          example: false
+        sms_email:
+          type: string
+          example: "N/A"
+    ResponseEmailValidation:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Success."
+        success:
+          type: boolean
+          example: true
+        valid:
+          type: boolean
+          example: true
+        disposable:
+          type: boolean
+          example: false
+        smtp_score:
+          type: integer
+          example: 5
+        overall_score:
+          type: integer
+          example: 2
+        first_name:
+          type: string
+          example: "Success."
+        generic:
+          type: boolean
+          example: false
+        common:
+          type: boolean
+          example: false
+        dns_valid:
+          type: boolean
+          example: true
+        honeypot:
+          type: boolean
+          example: false
+        deliverability:
+          type: string
+          example: "high."
+        frequent_complainer:
+          type: boolean
+          example: false
+        spam_trap_score:
+          type: string
+          example: "none."
+        catch_all:
+          type: boolean
+          example: true
+        timed_out:
+          type: boolean
+          example: true
+        suspect:
+          type: boolean
+          example: false
+        recent_abuse:
+          type: boolean
+          example: false
+        fraud_score:
+          type: integer
+          example: 1
+        suggested_domain:
+          type: string
+          example: "N/A"
+        leaked:
+          type: boolean
+          example: false
+        domain_age:
+            type: object
+            properties:
+                human:
+                    type: string
+                    example: "9 years ago"         
+                timestamp:
+                    type: integer
+                    example: 1378837133
+                iso:
+                    type: string
+                    example: "2013-09-10T14:18:53-04:00"
+        first_seen:
+            type: object
+            properties:
+                human:
+                    type: string
+                    example: "9 years ago"         
+                timestamp:
+                    type: integer
+                    example: 1378837133
+                iso:
+                    type: string
+                    example: "2013-09-10T14:18:53-04:00"
+        sanitized_email:
+          type: string
+          example: "example@example.com"
+        domain_velocity:
+          type: string
+          example: "none"
+        user_activity:
+          type: string
+          example: "Enterprise L4+ required."
+        associated_names:
+            type: object
+            properties:
+                status:
+                    type: string
+                    example: "Enterprise Plus or higher required."
+                names:
+                    type: array
+                    items:
+                      type: string
+                      example: "names"
+        associated_phone_numbers:
+            type: object
+            properties:
+                status:
+                    type: string
+                    example: "Enterprise Plus or higher required."
+                phone_numbers:
+                    type: array
+                    items:
+                      type: string
+                      example: "phone_numbers"
+        request_id:
+          type: string
+          example: "8cib1Ircsadw3gB"
+    400:
+       type: object
+       properties:
+        success: 
+          type: boolean
+          example: false
+        message: 
+          type: string
+          example: "You have insufficient credits to make this query. Please contact IPQualityScore support if this error persists."
+        request_id:
+          type: string
+          example: "4OTORR352FU0p"
+       required:
+        - success
+        - message
+        - request_id
+    401:
+       type: object
+       properties:
+        title: 
+          type: string
+          example: 'Unauthorized'
+        detail:
+          type: string
+          example: 'You are not authorized to access the requested resource'
+       required:
+        - title
+        - status
+    404:
+       type: object
+       properties:
+        title: 
+          type: string
+          example: 'Not Found.'
+        detail:
+          type: string
+          example: 'Requested resource not found.'
+       required:
+        - title
+        - status
+    409:
+       type: object
+       properties:
+        title: 
+          type: string
+          example: 'resource already exists'
+        detail:
+          type: string
+          example: 'error message'
+       required:
+        - title
+        - status
+    500:
+       type: object
+       properties:
+        title: 
+          type: string
+          example: 'Internal server error'
+        detail:
+          type: string
+          example: 'An exception has occurred on the server.'
+       required:
+        - title
+        - status
+    error:
+       type: object
+       properties:
+        success: 
+          type: boolean
+          example: false
+        message: 
+          type: string
+          example: "You have insufficient credits to make this query. Please contact IPQualityScore support if this error persists."
+        request_id:
+          type: string
+          example: "4OTORR352FU0p"
+       required:
+        - success
+        - message
+        - request_id
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
