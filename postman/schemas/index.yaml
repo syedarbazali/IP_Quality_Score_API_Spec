@@ -305,7 +305,7 @@ components:
                       example: "names"
         user_activity:
           type: string
-          example: "Enterprise L4+ required."
+          example: "medium"
         mnc:
           type: string
           example: "N/A"
@@ -431,7 +431,7 @@ components:
           example: "none"
         user_activity:
           type: string
-          example: "Enterprise L4+ required."
+          example: "medium"
         associated_names:
             type: object
             properties:
